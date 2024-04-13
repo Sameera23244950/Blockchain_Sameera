@@ -1,5 +1,5 @@
 <%- include partials/header.ejs %>
- 
+
 <body>
     <div id="readArea"> <!--Connecting to MetaMask -->
         <a class="btn btn-success" onclick="connectMetamask()">CONNECT TO METAMASK</button>
@@ -7,10 +7,10 @@
          <!-- index html to meta-->
     </div>
 </body>
- 
- 
+
+
 <script>
-       
+        
     let account;
     const connectMetamask = async () => {
         if(window.ethereum !== "underfined"){

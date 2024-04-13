@@ -3,12 +3,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
     <div class="container">
         <div class="row mt-5">
-            <div class="col-md-6 offset-md-3">
-                <div id="readArea" class="text-center metamask-area">
-                    <h2 class="mt-3">Connected to MetaMask</h2>
-                    <p id="userArea" class="mt-3 text-muted">Status: Not connected to MetaMask</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -204,7 +198,7 @@
                 "type": "function"
               }
             ];
-            const Address = "0x0715fdaAE4f57118b309B5087bb4A534c5498D00";
+            const Address = "0x28109589eedcF18daf701715CBDb55c1DE736e03";
             window.web3 = await new Web3(window.ethereum);
             contract = new window.web3.eth.Contract(ABI, Address);
             // Set the innerHTML of contractArea to indicate connection status
