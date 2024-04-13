@@ -1,0 +1,257 @@
+<%- include partials/header.ejs %>
+<body onload="connectMetamask(),connectContract()">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 offset-md-3">
+                <div id="readArea" class="text-center metamask-area">
+                    <h2 class="mt-3">Connected to MetaMask</h2>
+                    <p id="userArea" class="mt-3 text-muted">Status: Not connected to MetaMask</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="jumbotron" style="background-color: skyblue; position: relative; background-color: rgba(0, 0, 255, 0.1);">
+  <div class="container">
+    <h1 class="display-4" style="color: black;"><strong>Sameera's Health_Hub App</strong></h1>
+    <p class="lead"><strong>Your journey to health begins with a single step</strong></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="card col-md-4"><br>
+    <img src="https://www.allegra.com/dam/jcr:8cd3b7cd-78f2-47c6-b875-3cf755c7a300/43207-ALG-D_24hr_Tablets_15ct_Crtn_F_CLEAN1_848x878.png" style="width: 300px; height:200px;">
+    <div class="card-title text-center">
+      <a href="#" class="order-btn">Place your order <i class="fas fa-chevron-right"></i></a>
+    </div>  
+  </div>
+
+  
+  <div class="card col-md-4"><br>
+    <img src="https://images.apollo247.in/pub/media/catalog/product/A/C/ACE0025_1_1.jpg" style="width: 300px; height:200px;">
+    <div class="card-title text-center">
+      <a href="#" class="order-btn">Place your order <i class="fas fa-chevron-right"></i></a>
+    </div>  
+  </div>
+
+  <div class="card col-md-4"><br>
+    <img src="https://onemg.gumlet.io/l_watermark_346,w_480,h_480/a_ignore,w_480,h_480,c_fit,q_auto,f_auto/db676bfe52a54e85aec5733355fa7959.jpg" style="width: 300px; height:200px;">
+    <div class="card-title text-center">
+      <a href="#" class="order-btn">Place your order <i class="fas fa-chevron-right"></i></a>
+    </div>  
+  </div>
+</div>
+
+<!-- Order Form -->
+<div id="orderForm" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+  <h2>Order Form</h2>
+  <form id="orderForm">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="text" class="form-control form-control-sm" id="email">
+    </div>
+    <div class="form-group">
+      <label for="nummed">Number of Medicines:</label>
+      <input type="text" class="form-control form-control-sm" id="nummed">
+    </div>
+    <div class="form-group">
+      <label for="docname">Doctor's Name:</label>
+      <input type="text" class="form-control form-control-sm" id="docname">
+    </div>
+   
+    <button onclick="setDetails()">Pay</button>
+    <button onclick="getDetails()">View Payment Details</button>
+    <div id="details"></div>
+    <div id="contractArea"></div>
+  </form>
+</div>
+
+<!-- JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const orderButtons = document.querySelectorAll('.order-btn');
+    const orderForm = document.getElementById('orderForm');
+
+    orderButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        orderForm.style.display = 'block';
+      });
+    });
+  });
+
+  let account;
+  const connectMetamask = async () => {
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      account = accounts[0];
+      document.getElementById("userArea").innerHTML = `User Account: ${account}`;
+  }
+
+  let contract;
+ 
+        const connectContract = async () => {
+            const ABI = [
+              {
+                "anonymous": false,
+                "inputs": [
+                  {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "email",
+                    "type": "string"
+                  },
+                  {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "nummed",
+                    "type": "string"
+                  },
+                  {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "docname",
+                    "type": "string"
+                  }
+                ],
+                "name": "DetailsSet",
+                "type": "event"
+              },
+              {
+                "inputs": [
+                  {
+                    "internalType": "string",
+                    "name": "_email",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "_nummed",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "_docname",
+                    "type": "string"
+                  }
+                ],
+                "name": "setDetails",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+              },
+              {
+                "inputs": [],
+                "name": "docname",
+                "outputs": [
+                  {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                  }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+              },
+              {
+                "inputs": [],
+                "name": "email",
+                "outputs": [
+                  {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                  }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+              },
+              {
+                "inputs": [],
+                "name": "getDetails",
+                "outputs": [
+                  {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                  }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+              },
+              {
+                "inputs": [],
+                "name": "nummed",
+                "outputs": [
+                  {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                  }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+              }
+            ];
+            const Address = "0x0715fdaAE4f57118b309B5087bb4A534c5498D00";
+            window.web3 = await new Web3(window.ethereum);
+            contract = new window.web3.eth.Contract(ABI, Address);
+            // Set the innerHTML of contractArea to indicate connection status
+            document.getElementById("contractArea").innerHTML = "Connected to Contract";
+        }
+ 
+        const setDetails = () => {
+            const email = document.getElementById("email").value;
+            const nummed = document.getElementById("nummed").value;
+            const docname = document.getElementById("docname").value;
+       
+            
+       
+            window.ethereum.request({ method: 'eth_requestAccounts' })
+                .then((accounts) => {
+                    const account = accounts[0];
+                    return contract.methods.setDetails(email, nummed, docname).send({ from: account });
+                })
+                .then(() => {
+                    alert('Details set successfully');
+                })
+                .catch((error) => {
+                    console.error('Error setting details:', error);
+                    alert('Failed to set details');
+                });
+        }
+       
+ 
+        const getDetails = () => {
+            contract.methods.getDetails().call()
+                .then((result) => {
+                    const email = result[0];
+                    const nummed = result[1];
+                    const docname = result[2];
+                    document.getElementById("details").innerHTML = `
+                        Email: ${email}<br>
+                        Number of Medicines: ${nummed}<br>
+                        Doctor's Name: ${docname}<br>
+                    `;
+                })
+                .catch((error) => {
+                    console.error('Error getting details:', error);
+                    alert('Failed to get details');
+                });
+        }
+  </script>
+
+
+</body>
+</html>

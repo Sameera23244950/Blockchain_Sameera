@@ -1,0 +1,68 @@
+<%- include partials/header.ejs %>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 600px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>Your feedback is valuable 😊</h2>
+
+    <br><br>
+
+    <!-- Feedback Form -->
+    <div id="feedbackForm">
+      <h2>Feedback Form</h2>
+      <form>
+        <div class="form-group">
+          <label for="rating">Rating:</label>
+          <select class="form-control" id="rating">
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Good</option>
+            <option value="3">3 - Average</option>
+            <option value="2">2 - Fair</option>
+            <option value="1">1 - Poor</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="review">Review:</label>
+          <textarea class="form-control" id="review" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const submitButton = document.querySelector('#feedbackForm button[type="submit"]');
+        const feedbackForm = document.getElementById('feedbackForm');
+
+        submitButton.addEventListener('click', function(event) {
+          event.preventDefault();
+          const rating = document.getElementById('rating').value;
+          const review = document.getElementById('review').value;
+
+          // You can send the feedback data to your backend server here for processing
+          console.log('Rating:', rating);
+          console.log('Review:', review);
+
+          // Optionally, you can display a thank you message or redirect the user to a confirmation page
+          alert('Thank you for your feedback!');
+          feedbackForm.reset();
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<%- include partials/footer.ejs %>
