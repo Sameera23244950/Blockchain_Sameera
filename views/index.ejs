@@ -41,7 +41,7 @@
 <!-- Order Form -->
 <div id="orderForm" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
   <h2>Order Form</h2>
-  <form id="orderForm">
+  <div id="orderForm">
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="text" class="form-control form-control-sm" id="email">
@@ -59,7 +59,7 @@
     <button onclick="getDetails()">View Payment Details</button>
     <div id="details"></div>
     <div id="contractArea"></div>
-  </form>
+  </div>
 </div>
 
 <!-- JavaScript -->
@@ -78,7 +78,7 @@
 
   let account;
   const connectMetamask = async () => {
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
       account = accounts[0];
       document.getElementById("userArea").innerHTML = `User Account: ${account}`;
   }
@@ -87,118 +87,118 @@
  
         const connectContract = async () => {
             const ABI = [
-              {
-                "anonymous": false,
-                "inputs": [
-                  {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "email",
-                    "type": "string"
-                  },
-                  {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "nummed",
-                    "type": "string"
-                  },
-                  {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "docname",
-                    "type": "string"
-                  }
-                ],
-                "name": "DetailsSet",
-                "type": "event"
-              },
-              {
-                "inputs": [
-                  {
-                    "internalType": "string",
-                    "name": "_email",
-                    "type": "string"
-                  },
-                  {
-                    "internalType": "string",
-                    "name": "_nummed",
-                    "type": "string"
-                  },
-                  {
-                    "internalType": "string",
-                    "name": "_docname",
-                    "type": "string"
-                  }
-                ],
-                "name": "setDetails",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-              },
-              {
-                "inputs": [],
-                "name": "docname",
-                "outputs": [
-                  {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                  }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-              },
-              {
-                "inputs": [],
-                "name": "email",
-                "outputs": [
-                  {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                  }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-              },
-              {
-                "inputs": [],
-                "name": "getDetails",
-                "outputs": [
-                  {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                  },
-                  {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                  },
-                  {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                  }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-              },
-              {
-                "inputs": [],
-                "name": "nummed",
-                "outputs": [
-                  {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                  }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-              }
-            ];
-            const Address = "0x28109589eedcF18daf701715CBDb55c1DE736e03";
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "nummed",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "docname",
+				"type": "string"
+			}
+		],
+		"name": "DetailsSet",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_nummed",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_docname",
+				"type": "string"
+			}
+		],
+		"name": "setDetails",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "docname",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "email",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getDetails",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nummed",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+            const Address = "0x5Ee9ce52aDf0Eb6524b44ac1F836d288df930268";
             window.web3 = await new Web3(window.ethereum);
             contract = new window.web3.eth.Contract(ABI, Address);
             // Set the innerHTML of contractArea to indicate connection status
