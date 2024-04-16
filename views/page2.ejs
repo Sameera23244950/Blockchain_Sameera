@@ -1,13 +1,12 @@
 <%- include partials/header.ejs %>
 
 <body>
-    <div id="readArea"> <!--Connecting to MetaMask -->
-        <a class="btn btn-success" onclick="connectMetamask()">CONNECT TO METAMASK</button>
-        <p id="userArea">Status: Not connected to Metamask</p>
-         <!-- index html to meta-->
+    <div id="readArea" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 10vh; margin-top: 50px;"> <!--Connecting to MetaMask -->
+        <button class="btn btn-primary btn-lg" onclick="connectMetamask()" style="margin-bottom: 20px; background-color: #00e5ff; color: black;">CONNECT TO METAMASK</button>
+        <p id="userArea">Status: Connected to Metamask</p>
     </div>
 </body>
-
+</html>
 
 <script>
         

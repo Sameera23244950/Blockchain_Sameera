@@ -1,68 +1,118 @@
 <%- include partials/header.ejs %>
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
-    <style>
-      .map {
-        height: 600px;
-        width: 100%;
-      }
-    </style>
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
-    <title>OpenLayers example</title>
-  </head>
-  <body>
-    <h2>Your feedback is valuable 😊</h2>
+<!DOCTYPE html>
+<body onload="connectMetamask(),connectContract()">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+  <div class="container">
+      <div class="row mt-5">
+      </div>
+  </div>
 
-    <br><br>
+  <p class="lead"><strong>Please do explore our Medical Health Insurances</strong></p>
+</div>
+</div>
 
-    <!-- Feedback Form -->
-    <div id="feedbackForm">
-      <h2>Feedback Form</h2>
-      <form>
-        <div class="form-group">
-          <label for="rating">Rating:</label>
-          <select class="form-control" id="rating">
-            <option value="5">5 - Excellent</option>
-            <option value="4">4 - Good</option>
-            <option value="3">3 - Average</option>
-            <option value="2">2 - Fair</option>
-            <option value="1">1 - Poor</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="review">Review:</label>
-          <textarea class="form-control" id="review" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
+<div class="row">
+<div class="card col-md-4"><br>
+  <img src="https://www.internationalstudents.ie/sites/default/files/styles/traditional_television/public/media/images/2018-06/shutterstock_111443774_1.jpg.webp?itok=fW9lBS3k" style="width: 400px; height:200px;">
+  <div class="card-title text-center">
+    <button onclick="depositContract()">Buy medical Insurance for self</button><br>
+  </div>  
+</div>
 
-    <!-- JavaScript -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const submitButton = document.querySelector('#feedbackForm button[type="submit"]');
-        const feedbackForm = document.getElementById('feedbackForm');
 
-        submitButton.addEventListener('click', function(event) {
-          event.preventDefault();
-          const rating = document.getElementById('rating').value;
-          const review = document.getElementById('review').value;
+<div class="card col-md-4"><br>
+  <img src="https://img.freepik.com/free-photo/close-up-doctor-with-stethoscope_23-2149191355.jpg" style="width: 400px; height:200px;">
+  <div class="card-title text-center">
+    <button onclick="depositContract()">Buy medical Insurance for family</button><br>
+  </div>  
+</div>
 
-          // You can send the feedback data to your backend server here for processing
-          console.log('Rating:', rating);
-          console.log('Review:', review);
-
-          // Optionally, you can display a thank you message or redirect the user to a confirmation page
-          alert('Thank you for your feedback!');
-          feedbackForm.reset();
-        });
+<!-- JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const orderButtons = document.querySelectorAll('.order-btn');
+    const orderFormContainer = document.getElementById('orderFormContainer');
+ 
+    orderButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        orderFormContainer.style.display = 'block';
       });
-    </script>
-  </body>
+    });
+  });
+ 
+  let account;
+  const connectMetamask = async () => {
+    if (window.ethereum !== undefined) {
+      try {
+        const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+        account = accounts[0];
+        document.getElementById("userArea").innerHTML = `User Account: ${account}`;
+      } catch (error) {
+        console.error("Error connecting to MetaMask:", error);
+      }
+    }
+  };
+ 
+  const connectContract = async () => {
+    try {
+      const ABI = [
+	{
+		"inputs": [],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+      const address = "0x62fef9b345b882667fb6a05b799a9f9c7be5cc50";
+      window.web3 = await new Web3(window.ethereum);
+      window.contract = new window.web3.eth.Contract(ABI, address);
+      document.getElementById("contractArea").innerHTML = "Connected to Contract";
+    } catch (error) {
+      console.error("Error connecting to contract:", error);
+    }
+  };
+ 
+  const depositContract = async () => {
+    try {
+      if (!account) {
+        console.error("User account not found. Please connect MetaMask.");
+        return;
+      }
+      await connectContract(); // Ensure contract is connected
+      const response = await window.contract.methods.deposit().send({ from: account, value: 1 });
+      console.log("Transaction successful:", response);
+    } catch (error) {
+      console.error("Error depositing to contract:", error);
+    }
+  };
+ 
+  
+  const addName = async () => {
+            const user = document.getElementById("nameInput").value;
+            await window.contract.methods.setName(user).send({from: account});
+        }
+        const getName = async () => {
+            const user = await window.contract.methods.getName().call();
+            document.getElementById("showName").innerHTML = `Contract Account: ${user}`;
+ 
+        }
+</script>
+ 
+</body>
 </html>
-
-<%- include partials/footer.ejs %>

@@ -20,12 +20,9 @@ router.get('/', function(req, res, next) {
     res.render('page4', { title: 'Welcome to Web3 App', name:null });
   });
   
-  // router.get('/page5', function(req, res, next) {
-  //   res.render('page5', { title: 'Welcome to Web3 BootStrap App', name:null });
-  // });
-  // router.get('/page6', function(req, res, next) {
-  //   res.render('page6', { title: 'Welcome to Web3 BootStrap App', name:null });
-  // });
+   router.get('/page5', function(req, res, next) {
+     res.render('page5', { title: 'Welcome to Web3 App', name:null });
+   });
   
   module.exports = router;
   

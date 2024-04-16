@@ -1,33 +1,140 @@
 <%- include partials/header.ejs %>
-
 <!DOCTYPE html>
-        <html>
-           <head>
-              <title>OSM and Leaflet</title>
-              <link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
-           </head><body>
-              <div id = "map" style = "width: 900px; height: 580px"></div><script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-              <script>
-                 // Creating map options
-                 var mapOptions = {
-                    center: [17.385044, 78.486671],
-                    zoom: 10
-                 }
-                 
-                 // Creating a map object
-                 var map = new L.map('map', mapOptions);
-                 
-                 // Creating a Layer object
-                 var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-                 
-                 // Adding layer to the map
-                 map.addLayer(layer);
-              </script>
-           </body>
-           
-        </html>
-
-
-
-
-        
+<html lang="en">
+<head>
+    <style>
+    h1 { text-align: center; }
+    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image, Text, and Button</title>
+<style>
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            /* margin-top: 20px; */
+        }
+        .box {
+            text-align: center;
+            max-width: 300px;
+        }
+        .box img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .box h2 {
+            margin-top: 10px;
+        }
+        .box p {
+            margin-top: 10px;
+        }
+        .box button {
+            padding: 10px 20px;
+            background-color: #00e5ff;
+            color: rgb(19, 18, 18);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .box button:hover {
+            background-color: #0056b3;
+        }
+</style>
+</head>
+<body   onload="connectMetamask(),connectContract()">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+<h1>Want to buy more Medicines</h1>
+ <div class="container">
+    <div class="box">
+         <button onclick="findBalance()">Check your balance </button><br>
+         <p id="balance">Your Balance is : </p>
+    </div>
+</div>
+ 
+<script>
+  let account;
+  const connectMetamask = async () => {
+      if(window.ethereum !== "underfined"){
+          const accounts = await ethereum.request({method: "eth_requestAccounts"});
+          account = accounts[0];
+          document.getElementById("userArea").innerHTML = `User Account: ${account}`;
+      }
+  }
+ 
+  const connectContract = async () => {
+            const ABI =[
+	{
+		"inputs": [],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+ 
+  const Address = "0x3BBe419903C604ba3095F1D4377b1D112dcC1FCb"; // Taking Address from Remix
+            window.web3 = await new Web3(window.ethereum);
+            window.contract = await new window.web3.eth.Contract(ABI, Address);
+            // console.log(window.contract.methods);
+            document.getElementById("contractArea").innerHTML = `Connected to Contract:${Address}`; // calling the elementID above
+        }
+ 
+        const toWei = (val)=>{
+            return val/Math.pow(10,18);
+        }
+  const findBalance = async () => {
+            const val = await window.contract.methods.getBalance().call();
+             document.getElementById('balance').innerHTML = `Your balance is : ${toWei(val)} ETH`;
+        }
+ 
+</script>
+ 
+</body>
+</html>

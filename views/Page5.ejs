@@ -1,0 +1,60 @@
+<%- include partials/header.ejs %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Data Display</title>
+</head>
+<body>
+<div id="dataDisplay"></div>
+<script>
+   function displayData(data) {
+     let dataDisplay = '';
+       if (Array.isArray(data)) {
+       data.forEach(item =>{
+         dataDisplay += `<div class="dataItem">
+<h3>Medicine Details</h3>
+<p>Product NDC: <span class="product_ndc">${item.product_ndc}</span></p>
+<p>Generic Name: <span class="generic_name">${item.generic_name}</span></p>
+<p>Brand Name: <span class="brand_name">${item.brand_name}</span></p>
+</div>`;
+       });
+     } else {
+       // If data format is not as expected, show an error message
+       dataDisplay = "Error: Data format is not as expected";
+     }
+     document.getElementById('dataDisplay').innerHTML = dataDisplay;
+   }
+   // Function to fetch data from the API
+   const fetchData = async () => {
+     try {
+       const url = 'https://drug-info-and-price-history.p.rapidapi.com/1/druginfo?drug=advil';
+       const options = {
+         method: 'GET',
+         headers: {
+           'X-RapidAPI-Key': '72e890e0a7msha9581f1b4dba5a8p11cf42jsne969811ff327',
+           'X-RapidAPI-Host': 'drug-info-and-price-history.p.rapidapi.com'
+         }
+       };
+       const response = await fetch(url, options);
+       // Check if the response is ok
+       if (!response.ok) {
+         throw new Error('Network response was not ok');
+       }
+
+       const json_object = await response.json();
+       displayData(json_object);
+     } catch (error) {
+       console.error('Error fetching data:', error);
+       // Display error message in the UI
+       document.getElementById('dataDisplay').innerHTML = `Error fetching data: ${error.message}`;
+     }
+   };
+   // Function to display data in a readable format
+   // Call fetchData function when the page loads
+   window.onload = fetchData;
+</script>
+</body>
+</html>
