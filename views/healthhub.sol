@@ -27,15 +27,4 @@ contract MedicineRecord {
         return username;
     }
  
-    function getPlayerStrikeRate() view public returns(string memory){
-        return emailID ;
-    }
-
-    function getPlayerRun() view public returns(int){
-        return numofmeds;
-    }
- 
-    function getPlayerEconomy() view public returns(string memory){
-        return doctorname;
-    }
-}
+  }
